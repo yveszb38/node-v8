@@ -881,6 +881,8 @@
       'conditions': [
         ['is_component_build and not v8_optimized_debug and v8_enable_fast_mksnapshot', {
           'dependencies': [
+            'generate_bytecode_builtins_list',
+            'run_torque',
             'v8_compiler_opt',
           ],
           'export_dependent_settings': [
@@ -888,6 +890,8 @@
           ],
         }, {
           'dependencies': [
+            'generate_bytecode_builtins_list',
+            'run_torque',
             'v8_compiler',
           ],
           'export_dependent_settings': [

@@ -225,39 +225,29 @@
     'msvs_settings': {
       'VCCLCompilerTool': {
         'BufferSecurityCheck': 'true',
-        'DebugInformationFormat': 1, # /Z7 embed info in .obj files
-        'ExceptionHandling': 0, # /EHsc
+        'DebugInformationFormat': 1,          # /Z7 embed info in .obj files
+        'ExceptionHandling': 0,               # /EHsc
         'MultiProcessorCompilation': 'true',
-        'StringPooling': 'true', # pool string literals
+        'StringPooling': 'true',              # pool string literals
         'SuppressStartupBanner': 'true',
         'WarnAsError': 'false',
-        'WarningLevel': 3,       # /W3
+        'WarningLevel': 3,                    # /W3
       },
       'VCLinkerTool': {
+        'target_conditions': [
+          ['_type=="executable"', {
+            'SubSystem': 1,                   # /SUBSYSTEM:CONSOLE
+          }],
+        ],
         'conditions': [
           ['target_arch=="ia32"', {
-            'TargetMachine' : 1, # /MACHINE:X86
-            'target_conditions': [
-              ['_type=="executable"', {
-                'AdditionalOptions': [ '/SubSystem:Console,"5.01"' ],
-              }],
-            ],
+            'TargetMachine' : 1,              # /MACHINE:X86
           }],
           ['target_arch=="x64"', {
-            'TargetMachine' : 17, # /MACHINE:AMD64
-            'target_conditions': [
-              ['_type=="executable"', {
-                'AdditionalOptions': [ '/SubSystem:Console,"5.02"' ],
-              }],
-            ],
+            'TargetMachine' : 17,             # /MACHINE:X64
           }],
           ['target_arch=="arm64"', {
-            'TargetMachine' : 0, # /MACHINE:ARM64 is inferred from the input files.
-            'target_conditions': [
-              ['_type=="executable"', {
-                'AdditionalOptions': [ '/SubSystem:Console' ],
-              }],
-            ],
+            'TargetMachine' : 0,              # NotSet. MACHINE:ARM64 is inferred from the input files.
           }],
         ],
         'GenerateDebugInformation': 'true',
