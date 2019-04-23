@@ -47,7 +47,7 @@
                     ],
                     "default": "off",
                     "description": "Trace the communication with the Torque language server from VSCode."
-                  }
+                  }  
             }
         },
         "languages": [
