@@ -35,12 +35,23 @@
 
     # Emulate GN variables
     'conditions': [
+      ['OS != "win"', {
+        'is_posix': 1,
+      }, {
+        'is_posix': 0,
+      }],
       ['OS=="android"', { # GYP reverts OS to linux so use `-D OS=android`
         'is_android': 1,
       }, {
         'is_android': 0,
       }],
+      ['component and "library" in component', {
+        'is_component_build': 1,
+      }, {
+        'is_component_build': 0,
+      }],
     ],
+    'is_debug%': 0,
 
     # Variables from BUILD.gn
 
