@@ -1,8 +1,8 @@
 {
   'variables': {
-    'gas_version%': 0,
-    'llvm_version%': 0,
-    'nasm_version%': 0,
+    'gas_version%': '0',
+    'llvm_version%': '0',
+    'nasm_version%': '0',
   },
   'targets': [
     {
