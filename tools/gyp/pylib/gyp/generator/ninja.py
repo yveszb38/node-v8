@@ -2046,8 +2046,9 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params,
     master_ninja.rule(
       'cc',
       description='CC $out',
-      command=('$cc -MMD -MF $out.d $defines $includes $cflags $cflags_c '
-              '$cflags_pch_c -c $in -o $out'),
+      command='$cc -o $out -c $in @$out.rsp',
+      rspfile='$out.rsp',
+      rspfile_content='-MMD -MF $out.d $defines $includes $cflags $cflags_c $cflags_pch_c',
       depfile='$out.d',
       deps=deps)
     master_ninja.rule(
@@ -2058,8 +2059,9 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params,
     master_ninja.rule(
       'cxx',
       description='CXX $out',
-      command=('$cxx -MMD -MF $out.d $defines $includes $cflags $cflags_cc '
-              '$cflags_pch_cc -c $in -o $out'),
+      command='$cxx -o $out -c $in @$out.rsp',
+      rspfile='$out.rsp',
+      rspfile_content='-MMD -MF $out.d $defines $includes $cflags $cflags_cc $cflags_pch_cc',
       depfile='$out.d',
       deps=deps)
   else:
@@ -2158,8 +2160,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params,
     master_ninja.rule(
       'link',
       description='LINK $out',
-      command=('$ld $ldflags -o $out '
-               '-Wl,--start-group $in $solibs $libs -Wl,--end-group'),
+      command='$ld -o $out $ldflags -Wl,--start-group $in $solibs $libs -Wl,--end-group',
       pool='link_pool')
   elif flavor == 'win':
     master_ninja.rule(
@@ -2172,7 +2173,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params,
         rspfile_content='$in_newline $libflags')
     _AddWinLinkRules(master_ninja, embed_manifest=True)
     _AddWinLinkRules(master_ninja, embed_manifest=False)
-  else:
+  else:  # mac
     master_ninja.rule(
       'objc',
       description='OBJC $out',
