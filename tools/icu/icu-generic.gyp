@@ -110,77 +110,6 @@
           ## if your compiler can dead-strip, these exclusions will
           ## make ZERO difference to binary size.
           ## Made ICU-specific for future-proofing.
-          'conditions': [
-            [ 'icu_ver_major == 55', { 'sources!': [
-              # alphabetic index
-              '<(icu_path)/source/i18n/alphaindex.cpp',
-              # BOCSU
-              # misc
-              '<(icu_path)/source/i18n/regexcmp.cpp',
-              '<(icu_path)/source/i18n/regexcmp.h',
-              '<(icu_path)/source/i18n/regexcst.h',
-              '<(icu_path)/source/i18n/regeximp.cpp',
-              '<(icu_path)/source/i18n/regeximp.h',
-              '<(icu_path)/source/i18n/regexst.cpp',
-              '<(icu_path)/source/i18n/regexst.h',
-              '<(icu_path)/source/i18n/regextxt.cpp',
-              '<(icu_path)/source/i18n/regextxt.h',
-              '<(icu_path)/source/i18n/region.cpp',
-              '<(icu_path)/source/i18n/region_impl.h',
-              '<(icu_path)/source/i18n/reldatefmt.cpp',
-              '<(icu_path)/source/i18n/reldatefmt.h'
-              '<(icu_path)/source/i18n/scientificformathelper.cpp',
-              '<(icu_path)/source/i18n/tmunit.cpp',
-              '<(icu_path)/source/i18n/tmutamt.cpp',
-              '<(icu_path)/source/i18n/tmutfmt.cpp',
-              '<(icu_path)/source/i18n/uregex.cpp',
-              '<(icu_path)/source/i18n/uregexc.cpp',
-              '<(icu_path)/source/i18n/uregion.cpp',
-              '<(icu_path)/source/i18n/uspoof.cpp',
-              '<(icu_path)/source/i18n/uspoof_build.cpp',
-              '<(icu_path)/source/i18n/uspoof_conf.cpp',
-              '<(icu_path)/source/i18n/uspoof_conf.h',
-              '<(icu_path)/source/i18n/uspoof_impl.cpp',
-              '<(icu_path)/source/i18n/uspoof_impl.h',
-              '<(icu_path)/source/i18n/uspoof_wsconf.cpp',
-              '<(icu_path)/source/i18n/uspoof_wsconf.h',
-            ]}],
-            [ 'icu_ver_major == 57', { 'sources!': [
-
-              # alphabetic index
-              '<(icu_path)/source/i18n/alphaindex.cpp',
-              # BOCSU
-              # misc
-              '<(icu_path)/source/i18n/regexcmp.cpp',
-              '<(icu_path)/source/i18n/regexcmp.h',
-              '<(icu_path)/source/i18n/regexcst.h',
-              '<(icu_path)/source/i18n/regeximp.cpp',
-              '<(icu_path)/source/i18n/regeximp.h',
-              '<(icu_path)/source/i18n/regexst.cpp',
-              '<(icu_path)/source/i18n/regexst.h',
-              '<(icu_path)/source/i18n/regextxt.cpp',
-              '<(icu_path)/source/i18n/regextxt.h',
-              '<(icu_path)/source/i18n/region.cpp',
-              '<(icu_path)/source/i18n/region_impl.h',
-              '<(icu_path)/source/i18n/reldatefmt.cpp',
-              '<(icu_path)/source/i18n/reldatefmt.h'
-              '<(icu_path)/source/i18n/scientificformathelper.cpp',
-              '<(icu_path)/source/i18n/tmunit.cpp',
-              '<(icu_path)/source/i18n/tmutamt.cpp',
-              '<(icu_path)/source/i18n/tmutfmt.cpp',
-              '<(icu_path)/source/i18n/uregex.cpp',
-              '<(icu_path)/source/i18n/uregexc.cpp',
-              '<(icu_path)/source/i18n/uregion.cpp',
-              '<(icu_path)/source/i18n/uspoof.cpp',
-              '<(icu_path)/source/i18n/uspoof_build.cpp',
-              '<(icu_path)/source/i18n/uspoof_conf.cpp',
-              '<(icu_path)/source/i18n/uspoof_conf.h',
-              '<(icu_path)/source/i18n/uspoof_impl.cpp',
-              '<(icu_path)/source/i18n/uspoof_impl.h',
-              '<(icu_path)/source/i18n/uspoof_wsconf.cpp',
-              '<(icu_path)/source/i18n/uspoof_wsconf.h',
-            ]}],
-            ],
           'include_dirs': [
             '<(icu_path)/source/i18n',
           ],
@@ -212,12 +141,12 @@
           'conditions': [
             [ 'icu_small == "false"', { # and OS=win
               # full data - just build the full data file, then we are done.
-              'sources': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)<(icu_endianness)_dat.obj' ],
               'dependencies': [ 'genccode#host' ],
               'actions': [
                 {
                   'action_name': 'icudata',
                   'msvs_quote_cmd': 0,
+                  'process_outputs_as_sources': '1',
                   'inputs': [ '<(icu_data_in)' ],
                   'outputs': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)<(icu_endianness)_dat.obj' ],
                   'action': [ '<(PRODUCT_DIR)/genccode',
@@ -255,6 +184,7 @@
                   # build final .dat -> .obj
                   'action_name': 'genccode',
                   'msvs_quote_cmd': 0,
+                  'process_outputs_as_sources': '1',
                   'inputs': [ '<(SHARED_INTERMEDIATE_DIR)/icutmp/icudt<(icu_ver_major)<(icu_endianness).dat' ],
                   'outputs': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)<(icu_endianness)_dat.obj' ],
                   'action': [ '<(PRODUCT_DIR)/genccode',
@@ -265,14 +195,11 @@
                               '<@(_inputs)' ],
                 },
               ],
-              # This file contains the small ICU data.
-              'sources': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)<(icu_endianness)_dat.obj' ],
             } ] ], #end of OS==win and icu_small == true
         }, { # OS != win
           'conditions': [
             [ 'icu_small == "false"', {
               # full data - just build the full data file, then we are done.
-              'sources': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)_dat.c' ],
               'dependencies': [ 'genccode#host', 'icupkg#host', 'icu_implementation#host', 'icu_uconfig' ],
               'include_dirs': [
                 '<(icu_path)/source/common',
@@ -301,6 +228,7 @@
                 },
                 {
                   'action_name': 'icudata',
+                  'process_outputs_as_sources': '1',
                   'inputs': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major).dat' ],
                   'outputs':[ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)_dat.c' ],
                   'action': [ '<(PRODUCT_DIR)/genccode',
@@ -344,6 +272,7 @@
                 }, {
                   # build final .dat -> .obj
                   'action_name': 'genccode',
+                  'process_outputs_as_sources': '1',
                   'inputs': [ '<(SHARED_INTERMEDIATE_DIR)/icutmp/icusmdt<(icu_ver_major).dat' ],
                   'outputs': [ '<(SHARED_INTERMEDIATE_DIR)/icusmdt<(icu_ver_major)_dat.c' ],
                   'action': [ '<(PRODUCT_DIR)/genccode',
