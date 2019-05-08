@@ -1456,7 +1456,10 @@ def _GetMSVSAttributes(spec, config, config_type):
 
 
 def _AddNormalizedSources(sources_set, sources_array):
-  sources_set.update(_NormalizedSource(s) for s in sources_array)
+  # MSBuild output shows only basename, so sort by basename.
+  sources_array = sorted(sources_array, key=lambda x: os.path.basename(x))
+  for s in sources_array:
+    sources_set.add(_NormalizedSource(s))
 
 
 def _PrepareListOfSources(spec, generator_flags, gyp_file):
