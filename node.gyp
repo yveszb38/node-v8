@@ -379,10 +379,12 @@
             'NODE_ARCH="<(target_arch)"',
             'NODE_PLATFORM="<(OS)"',
           ],
-          'conditions': [
-            ['OS=="win"', {
-              'libraries': [ 'Ws2_32' ],
-            }],
+        }],
+        ['OS=="win"', {
+          'libraries': [
+            'Dbghelp.lib',
+            'winmm.lib',
+            'Ws2_32.lib',
           ],
         }],
         ['node_with_ltcg=="true"', {
@@ -1132,8 +1134,16 @@
             }],
           ],
         }],
+        ['OS=="win"', {
+          'libraries': [
+            'Dbghelp.lib',
+            'winmm.lib',
+            'Ws2_32.lib',
+          ],
+        }],
       ],
     }, # cctest
+
     # TODO(joyeecheung): do not depend on node_lib,
     # instead create a smaller static library node_lib_base that does
     # just enough for node_native_module.cc and the cache builder to
@@ -1173,20 +1183,12 @@
       ],
 
       'conditions': [
-        [ 'node_report=="true"', {
-          'conditions': [
-            ['OS=="win"', {
-              'libraries': [
-                'dbghelp.lib',
-                'PsApi.lib',
-                'Ws2_32.lib',
-              ],
-              'dll_files': [
-                'dbghelp.dll',
-                'PsApi.dll',
-                'Ws2_32.dll',
-              ],
-            }],
+        ['OS=="win"', {
+          'libraries': [
+            'dbghelp.lib',
+            'PsApi.lib',
+            'winmm.lib',
+            'Ws2_32.lib',
           ],
         }],
       ],
@@ -1223,11 +1225,11 @@
       ],
 
       'conditions': [
-        [ 'node_report=="true"', {
-          'conditions': [
-            ['OS=="win"', {
-              'libraries': [ 'Ws2_32' ],
-            }],
+        ['OS=="win"', {
+          'libraries': [
+            'Dbghelp.lib',
+            'winmm.lib',
+            'Ws2_32.lib',
           ],
         }],
       ],
