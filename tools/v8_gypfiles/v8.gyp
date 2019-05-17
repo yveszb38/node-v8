@@ -2478,10 +2478,12 @@
             '<(V8_ROOT)/src/base/debug/stack_trace_posix.cc',
             '<(V8_ROOT)/src/base/platform/platform-aix.cc',
           ],
-          'libraries': [
-            'dl',
-            'rt'
-          ],
+          'link_settings': {
+            'libraries': [
+              '-ldl',
+              '-lrt'
+            ],
+          },
         }],
         ['OS=="android"', {
           'sources': [
