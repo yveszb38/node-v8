@@ -888,7 +888,8 @@
     }, # v8_compiler
     {
       'target_name': 'v8_compiler_for_mksnapshot',
-      'type': 'static_library',
+      'type': 'none',
+      'hard_dependency': 1,
       'dependencies': [
         'generate_bytecode_builtins_list',
         'run_torque',
@@ -897,8 +898,6 @@
       'conditions': [
         ['is_component_build and not v8_optimized_debug and v8_enable_fast_mksnapshot', {
           'dependencies': [
-            'generate_bytecode_builtins_list',
-            'run_torque',
             'v8_compiler_opt',
           ],
           'export_dependent_settings': [
@@ -906,20 +905,10 @@
           ],
         }, {
           'dependencies': [
-            'generate_bytecode_builtins_list',
-            'run_torque',
             'v8_compiler',
           ],
           'export_dependent_settings': [
             'v8_compiler',
-          ],
-        }],
-        ['OS=="win"', {
-          'msvs_precompiled_header': '<(V8_ROOT)/../../tools/msvs/pch/v8_pch.h',
-          'msvs_precompiled_source': '<(V8_ROOT)/../../tools/msvs/pch/v8_pch.cc',
-          'sources': [
-            '<(_msvs_precompiled_header)',
-            '<(_msvs_precompiled_source)',
           ],
         }],
       ],
